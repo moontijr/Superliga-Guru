@@ -42,16 +42,19 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         Log.d("Firebase", "Firebase initialized successfully");
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
-        if (mDatabase == null) {
-            Log.e("Database", "Database reference is null");
-        } else {
-            Log.d("Database", "Database reference initialized successfully");
+        Log.d("Database", "Database reference initialized successfully");
+
+        //Enabling Database persistence
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        } catch (Exception e) {
+            Log.e("Firebase", "Error enabling persistence: " + e.getMessage());
         }
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         firebaseAuth = FirebaseAuth.getInstance();
+
         if (firebaseAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MatchdaysActivity.class));
             finish();
